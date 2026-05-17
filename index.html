@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VaultAfter — Coming Soon</title>
+  <meta name="description" content="VaultAfter is a secure digital inheritance platform for passwords, files, memories, and crypto access." />
+  <style>
+    :root {
+      --navy: #0F172A;
+      --teal: #0F766E;
+      --offwhite: #F8FAFC;
+      --stone: #E2E8F0;
+      --gold: #C8A96B;
+      --text: #0f172a;
+      --muted: #475569;
+      --white: #ffffff;
+      --shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #f8fafc 0%, #eef4f5 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 22px 0;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--navy);
+      text-decoration: none;
+      font-size: 1.05rem;
+    }
+
+    .logo-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--navy), var(--teal));
+      display: grid;
+      place-items: center;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-mark::before {
+      content: "";
+      width: 14px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.9);
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+      position: relative;
+      display: block;
+    }
+
+    main {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      padding: 32px 0 56px;
+    }
+
+    .hero {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-copy h1 {
+      margin: 0 0 14px;
+      font-size: clamp(2.7rem, 6vw, 5.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      color: var(--navy);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(15, 118, 110, 0.09);
+      color: var(--teal);
+      font-size: 0.92rem;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--gold);
+      box-shadow: 0 0 0 6px rgba(200, 169, 107, 0.18);
+    }
+
+    .hero-copy p {
+      margin: 0;
+      font-size: clamp(1.03rem, 2vw, 1.2rem);
+      line-height: 1.75;
+      color: var(--muted);
+      max-width: 620px;
+    }
+
+    .coming-soon {
+      margin-top: 22px;
+      display: inline-block;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      color: var(--navy);
+      font-size: 1.45rem;
+      letter-spacing: -0.03em;
+    }
+
+    .card p {
+      margin: 0 0 20px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .features {
+      display: grid;
+      gap: 12px;
+      margin: 18px 0 22px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(226, 232, 240, 0.45);
+      color: var(--navy);
+      font-weight: 500;
+    }
+
+    .feature-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--teal), var(--gold));
+      flex: 0 0 10px;
+    }
+
+    form {
+      display: grid;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: rgba(255,255,255,0.95);
+      padding: 14px 16px;
+      border-radius: 14px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.12);
+    }
+
+    button {
+      border: 0;
+      border-radius: 14px;
+      padding: 14px 18px;
+      background: linear-gradient(135deg, var(--navy), var(--teal));
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      box-shadow: 0 18px 30px rgba(15, 23, 42, 0.18);
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: 0.98;
+    }
+
+    .fineprint {
+      margin-top: 14px;
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .success {
+      display: none;
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(15, 118, 110, 0.1);
+      color: var(--teal);
+      font-weight: 600;
+    }
+
+    footer {
+      padding: 24px 0 34px;
+      color: #64748b;
+      font-size: 0.95rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      border-top: 1px solid rgba(148, 163, 184, 0.2);
+      padding-top: 18px;
+    }
+
+    a {
+      color: var(--teal);
+      text-decoration: none;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    @media (max-width: 880px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .card {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="logo" href="#">
+        <span class="logo-mark" aria-hidden="true"></span>
+        <span>VaultAfter</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="container hero">
+      <div class="hero-copy">
+        <div class="eyebrow">Coming soon</div>
+        <h1>VaultAfter</h1>
+        <p>
+          Secure digital inheritance for passwords, files, memories, and crypto access.
+          VaultAfter helps you prepare what matters most for the people you trust.
+        </p>
+        <span class="coming-soon">Early access launching soon</span>
+      </div>
+
+      <aside class="card" aria-label="Waitlist form">
+        <h2>Join the waitlist</h2>
+        <p>
+          Be the first to hear when VaultAfter opens early access.
+        </p>
+
+        <div class="features">
+          <div class="feature"><span class="feature-dot"></span>Passwords & secure notes</div>
+          <div class="feature"><span class="feature-dot"></span>Documents, photos & videos</div>
+          <div class="feature"><span class="feature-dot"></span>Crypto and digital access planning</div>
+        </div>
+
+        <form id="waitlist-form">
+          <input type="text" name="name" placeholder="Your name" required />
+          <input type="email" name="email" placeholder="Your email" required />
+          <button type="submit">Join the waitlist</button>
+        </form>
+
+        <div class="success" id="success-message">Thanks — you're on the list.</div>
+
+        <p class="fineprint">
+          Built in Sydney. Designed for secure digital inheritance.
+        </p>
+      </aside>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© 2026 VaultAfter. All rights reserved.</span>
+      <span><a href="https://vaultafter.com" target="_blank" rel="noopener noreferrer">vaultafter.com</a></span>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById('waitlist-form');
+    const success = document.getElementById('success-message');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      form.reset();
+      success.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
