@@ -1,353 +1,1338 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VaultAfter — Coming Soon</title>
-  <meta name="description" content="VaultAfter is a secure digital inheritance platform for passwords, files, memories, and crypto access." />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VaultAfter — A premium, private digital estate succession platform. Securely preserve and pass down your credentials, documents, and digital assets to your chosen heirs.">
+  <title>VaultAfter — Elite Digital Estate Succession & Safekeeping</title>
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700,800&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <style>
     :root {
-      --navy: #0F172A;
-      --teal: #0F766E;
-      --offwhite: #F8FAFC;
-      --stone: #E2E8F0;
-      --gold: #C8A96B;
-      --text: #0f172a;
-      --muted: #475569;
-      --white: #ffffff;
-      --shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
-      --radius: 18px;
+      --bg: #0A0A0C;
+      --surface: #121216;
+      --surface-elevated: #181820;
+      --accent: #C5A267; /* Champagne Gold */
+      --accent-hover: #D4B375;
+      --sub-accent: #BFA16F; /* Satin Gold */
+      --text: #F4F4F6;
+      --text-muted: #8A8A98;
+      --border: rgba(197, 162, 103, 0.08);
+      --glass: rgba(18, 18, 22, 0.75);
+      --shadow: 0 32px 64px rgba(0, 0, 0, 0.6);
+      --nav-h: 80px;
+      --font-display: 'Cabinet Grotesk', system-ui, sans-serif;
+      --font-body: 'Satoshi', system-ui, sans-serif;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    [data-theme="light"] {
+      --bg: #F9F9FB;
+      --surface: #FFFFFF;
+      --surface-elevated: #F1F1F4;
+      --text: #111115;
+      --text-muted: #626272;
+      --border: rgba(0, 0, 0, 0.06);
+      --glass: rgba(255, 255, 255, 0.85);
+      --shadow: 0 24px 48px rgba(197, 162, 103, 0.06);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+    }
+
     body {
-      margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(180deg, #f8fafc 0%, #eef4f5 100%);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.65;
       color: var(--text);
+      background: var(--bg);
       min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    img, svg { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+    ul { list-style: none; }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      z-index: 9999;
+      padding: 0.75rem 1rem;
+      background: var(--accent);
+      color: #000;
+      font-weight: 600;
+    }
+    .skip-link:focus { left: 1rem; top: 1rem; }
+
+    /* Logo */
+    .logo { display: flex; align-items: center; gap: 0.75rem; flex-shrink: 0; }
+    .logo svg { width: 30px; height: 30px; color: var(--accent); }
+    .logo span {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.01em;
+    }
+
+    /* Nav */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid transparent;
+      transition: background 0.4s var(--ease), border-color 0.4s var(--ease), backdrop-filter 0.4s;
+    }
+    .nav.scrolled {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-color: var(--border);
+    }
+    .nav__inner {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 1rem;
+    }
+    .nav__links {
+      display: none;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .nav__links a {
+      padding: 0.5rem 1.25rem;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav__links a:hover { color: var(--text); }
+    .nav__links a.active {
+      color: var(--accent);
+      background: var(--surface-elevated);
+    }
+    .nav__actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.75rem;
+    }
+    .theme-toggle {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      color: var(--text-muted);
+      transition: color 0.2s, background 0.2s;
+    }
+    .theme-toggle:hover { color: var(--text); background: var(--surface-elevated); }
+    .theme-toggle svg { width: 18px; height: 18px; }
+    .nav__cta { display: none; }
+    .hamburger {
+      width: 44px;
+      height: 44px;
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      border-radius: 6px;
+    }
+    .hamburger span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 1px;
+      transition: transform 0.3s var(--ease), opacity 0.3s;
+    }
+    .hamburger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .hamburger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (min-width: 900px) {
+      .nav__links { display: flex; }
+      .nav__cta { display: inline-flex; }
+      .hamburger { display: none; }
     }
 
-    .container {
-      width: min(1120px, calc(100% - 32px));
-      margin: 0 auto;
+    /* Mobile drawer */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1001;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s var(--ease), visibility 0.35s;
     }
-
-    header {
-      padding: 22px 0;
+    .drawer-overlay.open { opacity: 1; visibility: visible; }
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: min(320px, 88vw);
+      height: 100%;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      z-index: 1002;
+      padding: calc(var(--nav-h) + 1.5rem) 1.5rem 2rem;
+      transform: translateX(100%);
+      transition: transform 0.4s var(--ease);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
     }
-
-    .nav {
+    .drawer.open { transform: translateX(0); }
+    .drawer a {
+      padding: 0.875rem 1rem;
+      min-height: 44px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      font-weight: 500;
+      font-size: 1.0625rem;
+      border-radius: 6px;
+      color: var(--text-muted);
     }
+    .drawer a:hover, .drawer a.active { color: var(--accent); background: var(--surface-elevated); }
+    .drawer .btn-primary { margin-top: 1rem; width: 100%; justify-content: center; }
 
-    .logo {
+    /* Buttons */
+    .btn-primary {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--navy);
-      text-decoration: none;
-      font-size: 1.05rem;
+      justify-content: center;
+      gap: 0.5rem;
+      min-height: 46px;
+      padding: 0.75rem 1.75rem;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      color: #000;
+      background: var(--accent);
+      border-radius: 6px;
+      border: 1px solid transparent;
+      transition: background 0.2s var(--ease), transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0.75rem 1.5rem;
+      font-weight: 500;
+      font-size: 0.9375rem;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--accent); background: var(--surface-elevated); }
+
+    /* Layout */
+    main { padding-top: var(--nav-h); }
+    .page { display: none; }
+    .page.active { display: block; }
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    .section {
+      padding: 5rem 0;
+    }
+    @media (min-width: 768px) {
+      .section { padding: 7.5rem 0; }
     }
 
-    .logo-mark {
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--navy), var(--teal));
-      display: grid;
-      place-items: center;
-      box-shadow: var(--shadow);
+    .section-label {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sub-accent);
+      margin-bottom: 0.75rem;
+    }
+    h1, h2, h3 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+    h1 { font-size: clamp(2.5rem, 5.5vw, 3.5rem); letter-spacing: -0.03em; }
+    h2 { font-size: clamp(1.85rem, 4vw, 2.35rem); margin-bottom: 1.25rem; }
+    h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+    .lead {
+      font-size: clamp(1.0625rem, 2vw, 1.2rem);
+      color: var(--text-muted);
+      max-width: 36rem;
+      line-height: 1.65;
+    }
+
+    /* Reveal Animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hero */
+    .hero {
       position: relative;
+      padding: 4rem 0 5rem;
       overflow: hidden;
     }
-
-    .logo-mark::before {
-      content: "";
-      width: 14px;
-      height: 18px;
-      border: 2px solid rgba(255,255,255,0.9);
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-      border-bottom-left-radius: 5px;
-      border-bottom-right-radius: 5px;
+    @media (min-width: 768px) {
+      .hero { padding: 6rem 0 8rem; }
+    }
+    .hero__gradient {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 40% at 50% -10%, rgba(197, 162, 103, 0.12), transparent 50%),
+        radial-gradient(ellipse 30% 30% at 90% 20%, rgba(191, 161, 111, 0.04), transparent 40%);
+    }
+    .hero__inner {
       position: relative;
-      display: block;
-    }
-
-    main {
-      flex: 1;
       display: grid;
-      place-items: center;
-      padding: 32px 0 56px;
-    }
-
-    .hero {
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 40px;
+      gap: 3rem;
       align-items: center;
     }
-
-    .hero-copy h1 {
-      margin: 0 0 14px;
-      font-size: clamp(2.7rem, 6vw, 5.5rem);
-      line-height: 0.95;
-      letter-spacing: -0.05em;
-      color: var(--navy);
+    @media (min-width: 960px) {
+      .hero__inner {
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 4rem;
+      }
     }
-
-    .eyebrow {
+    .hero__content { max-width: 35rem; }
+    .hero__badge {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: rgba(15, 118, 110, 0.09);
-      color: var(--teal);
-      font-size: 0.92rem;
-      font-weight: 600;
-      margin-bottom: 18px;
+      gap: 0.5rem;
+      padding: 0.375rem 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--accent);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
     }
-
-    .eyebrow::before {
-      content: "";
+    .hero__badge::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .hero h1 { margin-bottom: 1.5rem; }
+    .hero .lead { margin-bottom: 2.25rem; }
+    .hero__visual {
+      position: relative;
+      aspect-ratio: 1.05;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+    @media (min-width: 960px) { .hero__visual { margin: 0 0 0 auto; } }
+    .vault-preview {
+      width: 100%;
+      height: 100%;
+      background: var(--glass);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .vault-preview__bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 0.5rem;
+    }
+    .vault-preview__bar span {
       width: 8px;
       height: 8px;
-      border-radius: 999px;
-      background: var(--gold);
-      box-shadow: 0 0 0 6px rgba(200, 169, 107, 0.18);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
     }
-
-    .hero-copy p {
-      margin: 0;
-      font-size: clamp(1.03rem, 2vw, 1.2rem);
-      line-height: 1.75;
-      color: var(--muted);
-      max-width: 620px;
-    }
-
-    .coming-soon {
-      margin-top: 22px;
-      display: inline-block;
-      font-weight: 700;
-      color: var(--navy);
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-      font-size: 0.85rem;
-    }
-
-    .card {
-      background: rgba(255,255,255,0.88);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(148, 163, 184, 0.18);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      padding: 28px;
-    }
-
-    .card h2 {
-      margin: 0 0 10px;
-      color: var(--navy);
-      font-size: 1.45rem;
-      letter-spacing: -0.03em;
-    }
-
-    .card p {
-      margin: 0 0 20px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .features {
-      display: grid;
-      gap: 12px;
-      margin: 18px 0 22px;
-    }
-
-    .feature {
+    .vault-preview__bar span:first-child { background: var(--accent); opacity: 0.6; }
+    .vault-preview__row {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
-      border-radius: 14px;
-      background: rgba(226, 232, 240, 0.45);
-      color: var(--navy);
-      font-weight: 500;
+      gap: 1.25rem;
+      padding: 1rem 1.25rem;
+      background: var(--surface-elevated);
+      border: 1px solid rgba(255, 255, 255, 0.02);
+      border-radius: 8px;
     }
-
-    .feature-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--teal), var(--gold));
-      flex: 0 0 10px;
-    }
-
-    form {
-      display: grid;
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    input {
-      width: 100%;
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      background: rgba(255,255,255,0.95);
-      padding: 14px 16px;
-      border-radius: 14px;
-      font-size: 1rem;
-      outline: none;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    input:focus {
-      border-color: var(--teal);
-      box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.12);
-    }
-
-    button {
-      border: 0;
-      border-radius: 14px;
-      padding: 14px 18px;
-      background: linear-gradient(135deg, var(--navy), var(--teal));
-      color: var(--white);
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
-      box-shadow: 0 18px 30px rgba(15, 23, 42, 0.18);
-    }
-
-    button:hover {
-      transform: translateY(-1px);
-      opacity: 0.98;
-    }
-
-    .fineprint {
-      margin-top: 14px;
-      font-size: 0.92rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .success {
-      display: none;
-      margin-top: 14px;
-      padding: 12px 14px;
-      border-radius: 14px;
-      background: rgba(15, 118, 110, 0.1);
-      color: var(--teal);
-      font-weight: 600;
-    }
-
-    footer {
-      padding: 24px 0 34px;
-      color: #64748b;
-      font-size: 0.95rem;
-    }
-
-    .footer-inner {
+    .vault-preview__icon {
+      width: 38px;
+      height: 38px;
       display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-      border-top: 1px solid rgba(148, 163, 184, 0.2);
-      padding-top: 18px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--accent);
+    }
+    .vault-preview__icon svg { width: 18px; height: 18px; }
+    .vault-preview__meta { flex: 1; min-width: 0; }
+    .vault-preview__meta strong {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+      letter-spacing: -0.01em;
+    }
+    .vault-preview__meta span {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .vault-preview__lock {
+      color: var(--accent);
+      opacity: 0.8;
+    }
+    .vault-preview__lock svg { width: 16px; height: 16px; }
+
+    /* Asymmetric Grid */
+    .feature-strip {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    @media (min-width: 768px) {
+      .feature-strip {
+        display: grid;
+        grid-template-columns: 1.15fr 1fr;
+        grid-template-rows: auto auto;
+        gap: 1.25rem;
+      }
+      .feature-strip .glass-card:first-child { grid-row: span 2; }
+    }
+    .glass-card {
+      background: var(--glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      transition: border-color 0.3s var(--ease), background 0.3s var(--ease);
+    }
+    .glass-card:hover { border-color: var(--accent); background: var(--surface-elevated); }
+    .glass-card__icon {
+      width: 36px;
+      height: 36px;
+      margin-bottom: 1.5rem;
+      color: var(--accent);
+    }
+    .glass-card__icon svg { width: 100%; height: 100%; stroke-width: 1.25; }
+    .glass-card p {
+      color: var(--text-muted);
+      font-size: 0.9375rem;
+      margin-top: 0.5rem;
     }
 
-    a {
-      color: var(--teal);
-      text-decoration: none;
+    /* Process Flow */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-left: 1px solid var(--border);
+      margin-left: 0.5rem;
+      padding-left: 2.25rem;
+    }
+    .step {
+      position: relative;
+      padding-bottom: 3rem;
+    }
+    .step:last-child { padding-bottom: 0; }
+    .step::before {
+      content: attr(data-step);
+      position: absolute;
+      left: calc(-2.25rem - 0.5rem - 13px);
+      top: 2px;
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.75rem;
+      background: var(--bg);
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      color: var(--accent);
+    }
+    .step h3 { margin-bottom: 0.5rem; font-weight: 700; }
+    .step p { color: var(--text-muted); font-size: 0.9375rem; max-width: 28rem; }
+
+    .steps-layout {
+      display: grid;
+      gap: 3.5rem;
+    }
+    @media (min-width: 900px) {
+      .steps-layout {
+        grid-template-columns: 0.85fr 1.15fr;
+        align-items: start;
+        gap: 4.5rem;
+      }
     }
 
-    a:hover { text-decoration: underline; }
-
-    @media (max-width: 880px) {
-      .hero {
-        grid-template-columns: 1fr;
-        gap: 24px;
+    /* Sub-page Specifics */
+    .features-hero {
+      padding: 4rem 0 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .feature-row {
+      display: grid;
+      gap: 1.5rem;
+      padding: 3rem 0;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+    }
+    @media (min-width: 768px) {
+      .feature-row {
+        grid-template-columns: 56px 1fr 1.1fr;
+        gap: 3rem;
+        padding: 3.5rem 0;
       }
+    }
+    .feature-row__icon {
+      width: 40px;
+      height: 40px;
+      color: var(--accent);
+    }
+    .feature-row__icon svg { width: 100%; height: 100%; }
+    .feature-row__title h3 { font-size: 1.35rem; font-weight: 700; }
+    .feature-row__title p {
+      color: var(--accent);
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 0.35rem;
+    }
+    .feature-row__detail {
+      color: var(--text-muted);
+      font-size: 0.9375rem;
+    }
+    .feature-row__detail ul {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .feature-row__detail li {
+      padding-left: 1.25rem;
+      position: relative;
+    }
+    .feature-row__detail li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.65em;
+      width: 4px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
 
-      .card {
-        padding: 22px;
+    /* Narrative Text Layout */
+    .about-grid {
+      display: grid;
+      gap: 3.5rem;
+    }
+    @media (min-width: 900px) {
+      .about-grid {
+        grid-template-columns: 1fr 1.35fr;
+        gap: 5rem;
       }
+    }
+    .about-aside { position: relative; }
+    .about-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2.25rem;
+    }
+    .about-card blockquote {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 700;
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.75rem;
+    }
+    .about-card cite {
+      font-style: normal;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+    .about-card cite strong {
+      display: block;
+      color: var(--text);
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .about-content p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      max-width: 40rem;
+    }
+    .about-content p strong { color: var(--text); font-weight: 600; }
+    .mission-box {
+      margin-top: 3rem;
+      padding: 1.75rem;
+      border-left: 2px solid var(--accent);
+      background: var(--surface);
+    }
+    .mission-box h3 { margin-bottom: 0.75rem; font-weight: 700; }
+    .mission-box p { color: var(--text-muted); margin: 0; }
+
+    /* Forms */
+    .waitlist-wrap { max-width: 460px; }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.625rem;
+      color: var(--text-muted);
+    }
+    .form-group input {
+      width: 100%;
+      min-height: 48px;
+      padding: 0.75rem 1.125rem;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+    }
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(197, 162, 103, 0.15);
+    }
+    .form-group input::placeholder { color: var(--text-muted); opacity: 0.6; }
+    .form-success {
+      display: none;
+      padding: 2rem;
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      color: var(--text);
+    }
+    .form-success.show { display: block; }
+    .form-success h3 {
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+    }
+    .form-success p { color: var(--text-muted); font-size: 0.9375rem; }
+    .form-error {
+      color: #E06C75;
+      font-size: 0.875rem;
+      margin-top: 0.625rem;
+      display: none;
+    }
+    .form-error.show { display: block; }
+
+    /* CTA Section Banner */
+    .cta-band {
+      margin: 2rem 0 0;
+      padding: 3rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+    @media (min-width: 640px) {
+      .cta-band {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+    .cta-band h2 { margin: 0; font-size: 1.65rem; font-weight: 700; }
+    .cta-band p { color: var(--text-muted); font-size: 0.9375rem; margin: 0; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 4rem 0 2.5rem;
+      margin-top: 4rem;
+    }
+    .footer-grid {
+      display: grid;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    @media (min-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 1.6fr 1fr 1fr;
+        gap: 4rem;
+      }
+    }
+    .footer-brand p {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      margin-top: 1.25rem;
+      max-width: 260px;
+    }
+    .footer-col h4 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+    .footer-col a, .footer-col span {
+      padding: 0.35rem 0;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--accent); }
+    .footer-bottom {
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+    }
+    @media (min-width: 640px) {
+      .footer-bottom { flex-direction: row; justify-content: space-between; align-items: center; }
+    }
+
+    .geo-line {
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+      margin-bottom: 1.75rem;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="container nav">
-      <a class="logo" href="#">
-        <span class="logo-mark" aria-hidden="true"></span>
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <header class="nav" id="nav" role="banner">
+    <div class="nav__inner">
+      <a href="#home" class="logo" data-route="home" aria-label="VaultAfter home">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="6" y="8" width="36" height="34" rx="3" stroke="currentColor" stroke-width="2"/>
+          <path d="M24 8v34" stroke="currentColor" stroke-width="1" stroke-opacity="0.25"/>
+          <path d="M15 18 L21 34 L24 27 L27 34 L33 18" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="24" cy="14" r="4.5" stroke="currentColor" stroke-width="1.75"/>
+          <circle cx="24" cy="14" r="1.25" fill="currentColor"/>
+          <path d="M24 18.5v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
         <span>VaultAfter</span>
       </a>
+      <nav class="nav__links" aria-label="Main">
+        <a href="#home" data-route="home">Home</a>
+        <a href="#features" data-route="features">Features</a>
+        <a href="#about" data-route="about">About</a>
+        <a href="#waitlist" data-route="waitlist">Waitlist</a>
+      </nav>
+      <div class="nav__actions">
+        <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle light mode">
+          <i data-lucide="sun" id="themeIcon"></i>
+        </button>
+        <a href="#waitlist" class="btn-primary nav__cta" data-route="waitlist">Join Waitlist</a>
+        <button type="button" class="hamburger" id="hamburger" aria-expanded="false" aria-controls="drawer" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <main>
-    <section class="container hero">
-      <div class="hero-copy">
-        <div class="eyebrow">Coming soon</div>
-        <h1>VaultAfter</h1>
-        <p>
-          Secure digital inheritance for passwords, files, memories, and crypto access.
-          VaultAfter helps you prepare what matters most for the people you trust.
-        </p>
-        <span class="coming-soon">Early access launching soon</span>
-      </div>
+  <div class="drawer-overlay" id="drawerOverlay" aria-hidden="true"></div>
+  <nav class="drawer" id="drawer" aria-label="Mobile" aria-hidden="true">
+    <a href="#home" data-route="home">Home</a>
+    <a href="#features" data-route="features">Features</a>
+    <a href="#about" data-route="about">About</a>
+    <a href="#waitlist" data-route="waitlist">Waitlist</a>
+    <a href="#waitlist" class="btn-primary" data-route="waitlist">Join Waitlist</a>
+  </nav>
 
-      <aside class="card" aria-label="Waitlist form">
-        <h2>Join the waitlist</h2>
-        <p>
-          Be the first to hear when VaultAfter opens early access.
-        </p>
-
-        <div class="features">
-          <div class="feature"><span class="feature-dot"></span>Passwords & secure notes</div>
-          <div class="feature"><span class="feature-dot"></span>Documents, photos & videos</div>
-          <div class="feature"><span class="feature-dot"></span>Crypto and digital access planning</div>
+  <main id="main">
+    <article class="page active" id="page-home" data-page="home">
+      <section class="hero" data-section-route="home" aria-labelledby="hero-heading">
+        <div class="hero__gradient" aria-hidden="true"></div>
+        <div class="container hero__inner">
+          <div class="hero__content reveal">
+            <p class="hero__badge">Private placement invitations</p>
+            <h1 id="hero-heading">Your digital legacy, beautifully preserved.</h1>
+            <p class="lead">VaultAfter is a premium digital estate succession platform. Securely pass down your most vital credentials, documents, and digital archives to your chosen heirs through an automated, completely private safekeeping system.</p>
+            <a href="#waitlist" class="btn-primary" data-route="waitlist">Join Waitlist</a>
+          </div>
+          <div class="hero__visual reveal" style="transition-delay: 0.1s">
+            <div class="vault-preview" aria-hidden="true">
+              <div class="vault-preview__bar"><span></span><span></span><span></span></div>
+              <div class="vault-preview__row">
+                <div class="vault-preview__icon"><i data-lucide="file-text"></i></div>
+                <div class="vault-preview__meta"><strong>estate_succession.pdf</strong><span>Protected Archive</span></div>
+                <div class="vault-preview__lock"><i data-lucide="lock"></i></div>
+              </div>
+              <div class="vault-preview__row">
+                <div class="vault-preview__icon"><i data-lucide="key-round"></i></div>
+                <div class="vault-preview__meta"><strong>credentials.vault</strong><span>Zero-knowledge isolation</span></div>
+                <div class="vault-preview__lock"><i data-lucide="lock"></i></div>
+              </div>
+              <div class="vault-preview__row">
+                <div class="vault-preview__icon"><i data-lucide="shield"></i></div>
+                <div class="vault-preview__meta"><strong>digital_assets.json</strong><span>Safeguard loop active</span></div>
+                <div class="vault-preview__lock"><i data-lucide="lock"></i></div>
+              </div>
+            </div>
+          </div>
         </div>
+      </section>
 
-        <form id="waitlist-form">
-          <input type="text" name="name" placeholder="Your name" required />
-          <input type="email" name="email" placeholder="Your email" required />
-          <button type="submit">Join the waitlist</button>
-        </form>
+      <section class="section" data-section-route="home" aria-labelledby="highlights-heading">
+        <div class="container">
+          <div class="reveal">
+            <p class="section-label">The Strategy</p>
+            <h2 id="highlights-heading">Designed for complete data sovereignty</h2>
+          </div>
+          <div class="feature-strip" style="margin-top: 2.5rem">
+            <article class="glass-card reveal">
+              <div class="glass-card__icon"><i data-lucide="shield-check"></i></div>
+              <h3>Absolute Privacy</h3>
+              <p>Your assets are fully encrypted before they ever leave your device. We can never view or access your private records—by design, not just by policy.</p>
+            </article>
+            <article class="glass-card reveal" style="transition-delay: 0.05s">
+              <div class="glass-card__icon"><i data-lucide="clock"></i></div>
+              <h3>Automated Verification</h3>
+              <p>A secure, silent monitoring mechanism ensures your instructions remain locked while you are active, executing instantly when conditions shift.</p>
+            </article>
+            <article class="glass-card reveal" style="transition-delay: 0.1s">
+              <div class="glass-card__icon"><i data-lucide="fingerprint"></i></div>
+              <h3>Failsafe Architecture</h3>
+              <p>Engineered to endure. Built strictly as an independent framework so your historical continuity never depends on our company's infrastructure.</p>
+            </article>
+            <article class="glass-card reveal" style="transition-delay: 0.15s">
+              <div class="glass-card__icon"><i data-lucide="user-check"></i></div>
+              <h3>Unified Estate Storage</h3>
+              <p>Gather your critical access paths, private records, financial directions, and data files into a single, highly refined destination you entirely own.</p>
+            </article>
+          </div>
+        </div>
+      </section>
 
-        <div class="success" id="success-message">Thanks — you're on the list.</div>
+      <section class="section" data-section-route="home" aria-labelledby="how-heading">
+        <div class="container steps-layout">
+          <div class="reveal">
+            <p class="section-label">The Process</p>
+            <h2 id="how-heading">Three steps to ensure continuity.</h2>
+            <p class="lead" style="margin-top: 1rem">We remove traditional administrative friction. VaultAfter operates beautifully on the surface, backed by exceptional architectural resilience underneath.</p>
+          </div>
+          <ol class="steps reveal" style="transition-delay: 0.1s">
+            <li class="step" data-step="1">
+              <h3>Secure Your Assets</h3>
+              <p>Organize your keys, documents, and credentials in your personal secure dashboard. Everything is isolated immediately.</p>
+            </li>
+            <li class="step" data-step="2">
+              <h3>Define Your Safeguards</h3>
+              <p>Set a personalized check-in routine and name your chosen beneficiaries. The system maintains watch silently behind the scenes.</p>
+            </li>
+            <li class="step" data-step="3">
+              <h3>Seamless Handover</h3>
+              <p>If you stop checking in and your custom grace period closes, your secure vault is safely and gracefully unlocked for your designated heirs.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
 
-        <p class="fineprint">
-          Built in Sydney. Designed for secure digital inheritance.
-        </p>
-      </aside>
-    </section>
+      <section class="section">
+        <div class="container">
+          <div class="cta-band reveal">
+            <div>
+              <h2>Secure your reservation</h2>
+              <p>We are onboarding initial members in intentionally managed groups. Space is limited.</p>
+            </div>
+            <a href="#waitlist" class="btn-primary" data-route="waitlist">Join Waitlist</a>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="page" id="page-features" data-page="features">
+      <header class="features-hero" data-section-route="features">
+        <div class="container reveal">
+          <p class="section-label">Capabilities</p>
+          <h1>An elegant standard for digital wealth transfer</h1>
+          <p class="lead" style="margin-top: 1rem">A cohesive set of features crafted precisely for managing highly sensitive, multi-generational digital estates.</p>
+        </div>
+      </header>
+      <section class="section" style="padding-top: 0">
+        <div class="container feature-list">
+          <article class="feature-row reveal">
+            <div class="feature-row__icon"><i data-lucide="lock-keyhole"></i></div>
+            <div class="feature-row__title">
+              <h3>Encrypted Vault Architecture</h3>
+              <p>Security Environment</p>
+            </div>
+            <div class="feature-row__detail">
+              <p>Your records remain thoroughly protected by local, client-side encryption keys, offering strict defensive barriers against external network interference.</p>
+              <ul>
+                <li>Military-grade asset isolation</li>
+                <li>Zero exposure to centralized database scanning</li>
+                <li>Comprehensive data portability control</li>
+              </ul>
+            </div>
+          </article>
+          <article class="feature-row reveal">
+            <div class="feature-row__icon"><i data-lucide="file-text"></i></div>
+            <div class="feature-row__title">
+              <h3>Legal &amp; Financial Safekeeping</h3>
+              <p>Document Protection</p>
+            </div>
+            <div class="feature-row__detail">
+              <p>Consolidate your digital wills, corporate structures, trusts, or property agreements into an immutable environment ready for instant succession.</p>
+              <ul>
+                <li>Preservation of original documentation quality</li>
+                <li>Tamper-proof storage validation</li>
+                <li>Secure previews without cloud file exposing</li>
+              </ul>
+            </div>
+          </article>
+          <article class="feature-row reveal">
+            <div class="feature-row__icon"><i data-lucide="key-round"></i></div>
+            <div class="feature-row__title">
+              <h3>Master Access Management</h3>
+              <p>Credential Succession</p>
+            </div>
+            <div class="feature-row__detail">
+              <p>Pass down vital administrator logbooks, key account lines, and communication paths smoothly, preventing permanent operational lockouts.</p>
+              <ul>
+                <li>Integrated protection of authentication lines</li>
+                <li>Secure field entries for critical backup phrases</li>
+                <li>Clean exports without platform dependency locks</li>
+              </ul>
+            </div>
+          </article>
+          <article class="feature-row reveal">
+            <div class="feature-row__icon"><i data-lucide="briefcase"></i></div>
+            <div class="feature-row__title">
+              <h3>Digital Wealth Succession</h3>
+              <p>High-Value Portfolios</p>
+            </div>
+            <div class="feature-row__detail">
+              <p>Safeguard access instructions for digital native currencies, investment profiles, and cloud storage systems with maximum discretion.</p>
+              <ul>
+                <li>Simplified, intuitive tracking interfaces</li>
+                <li>Frictionless account management for daily operations</li>
+                <li>Hardware and institutional compliance preparation</li>
+              </ul>
+            </div>
+          </article>
+          <article class="feature-row reveal">
+            <div class="feature-row__icon"><i data-lucide="bell"></i></div>
+            <div class="feature-row__title">
+              <h3>Grace Period Calibration</h3>
+              <p>Safety Enhancements</p>
+            </div>
+            <div class="feature-row__detail">
+              <p>Never worry about unexpected trigger events while traveling. The protocol deploys an multi-channel verification cascade prior to asset handover.</p>
+              <ul>
+                <li>Configurable multi-tier warning countdowns</li>
+                <li>SMS, Email, and multi-network communication alerts</li>
+                <li>Instant one-touch verification resets</li>
+              </ul>
+            </div>
+          </article>
+          <article class="feature-row reveal">
+            <div class="feature-row__icon"><i data-lucide="users"></i></div>
+            <div class="feature-row__title">
+              <h3>Bespoke Heir Delivery</h3>
+              <p>Beneficiary Environment</p>
+            </div>
+            <div class="feature-row__detail">
+              <p>A beautiful, calm, and simple interface designed explicitly for your beneficiaries, protecting them from technological strain during a transition.</p>
+              <ul>
+                <li>Streamlined identification matching gates</li>
+                <li>Guided handover tutorials and document views</li>
+                <li>Completely accessible environment for heirs</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </section>
+      <section class="section">
+        <div class="container">
+          <div class="cta-band reveal">
+            <div>
+              <h2>Ready when you are</h2>
+              <p>Get notified the moment our registry opens for private onboarding.</p>
+            </div>
+            <a href="#waitlist" class="btn-primary" data-route="waitlist">Join Waitlist</a>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="page" id="page-about" data-page="about">
+      <section class="section" data-section-route="about">
+        <div class="container">
+          <div class="reveal">
+            <p class="section-label">The Core</p>
+            <h1>Bridging operational excellence with digital continuity</h1>
+          </div>
+          <div class="about-grid" style="margin-top: 3rem">
+            <aside class="about-aside reveal">
+              <div class="about-card">
+                <blockquote>"Digital inheritance isn't about complex technical theater — it's about giving families absolute mathematical certainty when everything else shifts."</blockquote>
+                <cite>
+                  <strong>Ritik Shrestha</strong>
+                  Founder, VaultAfter
+                </cite>
+              </div>
+            </aside>
+            <div class="about-content reveal" style="transition-delay: 0.1s">
+              <div class="geo-line" aria-hidden="true"></div>
+              <p><strong>VaultAfter</strong> was born from a fundamental realization: modern password tools are meticulously designed for the living, but fail completely when an unexpected crisis arises. Vital digital wealth, legacy records, and family archives sit scattered across disconnected accounts and unrecoverable platforms.</p>
+              <p>We are applying sophisticated systems architecture and clear human design to craft a secure space that endures for decades. By focusing on data sovereignty, we guarantee your legacy remains functional, private, and fully preserved for the next generation.</p>
+              <p>We believe in absolute clarity. No bloated corporate slides, no artificial reviews. Just an independent team obsessed with strong encryption, minimalist presentation, and robust continuity frameworks that put you in complete control.</p>
+              <div class="mission-box">
+                <h3>Our Mission</h3>
+                <p>To establish a permanent, secure framework for digital assets that respects total privacy during your lifetime and guarantees absolute peace of mind for those left behind.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section">
+        <div class="container">
+          <div class="cta-band reveal">
+            <div>
+              <h2>Follow the build</h2>
+              <p>Join our priority registry for status updates and early release allocations.</p>
+            </div>
+            <a href="#waitlist" class="btn-primary" data-route="waitlist">Join Waitlist</a>
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <article class="page" id="page-waitlist" data-page="waitlist">
+      <section class="section" data-section-route="waitlist">
+        <div class="container">
+          <div class="waitlist-wrap">
+            <div class="reveal">
+              <p class="section-label">Registry</p>
+              <h1>Request Allocation</h1>
+              <p class="lead" style="margin-top: 1rem">Enter your details to register for private placement. We communicate strictly in small, structured batches—no tracking, no marketing noise.</p>
+            </div>
+            <form id="waitlistForm" class="reveal" style="margin-top: 2.5rem; transition-delay: 0.1s" action="https://formspree.io/f/xbdbjyea" method="POST" novalidate>
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required autocomplete="name" placeholder="Your full name" minlength="2">
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required autocomplete="email" placeholder="name@domain.com">
+              </div>
+              <input type="hidden" name="_subject" value="VaultAfter Priority Waitlist Signup">
+              <p class="form-error" id="formError" role="alert"></p>
+              <button type="submit" class="btn-primary" style="width: 100%">Submit Registration</button>
+            </form>
+            <div class="form-success reveal" id="formSuccess" role="status">
+              <h3><i data-lucide="check-circle" style="width:22px;height:22px"></i> Verified Registration</h3>
+              <p>Thank you for registering. Our office will reach out directly when your placement window becomes active.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </article>
   </main>
 
   <footer>
-    <div class="container footer-inner">
-      <span>© 2026 VaultAfter. All rights reserved.</span>
-      <span><a href="https://vaultafter.com" target="_blank" rel="noopener noreferrer">vaultafter.com</a></span>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#home" class="logo" data-route="home">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="6" y="8" width="36" height="34" rx="3" stroke="currentColor" stroke-width="2"/>
+              <path d="M24 8v34" stroke="currentColor" stroke-width="1" stroke-opacity="0.25"/>
+              <path d="M15 18 L21 34 L24 27 L27 34 L33 18" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="24" cy="14" r="4.5" stroke="currentColor" stroke-width="1.75"/>
+              <circle cx="24" cy="14" r="1.25" fill="currentColor"/>
+              <path d="M24 18.5v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span>VaultAfter</span>
+          </a>
+          <p>Your digital estate, locked and yours. Elite digital succession architectures.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Framework</h4>
+          <a href="#home" data-route="home">Home</a>
+          <a href="#features" data-route="features">Features</a>
+          <a href="#about" data-route="about">About</a>
+          <a href="#waitlist" data-route="waitlist">Waitlist</a>
+        </div>
+        <div class="footer-col">
+          <h4>Inquiries</h4>
+          <a href="mailto:ritik@vaultafter.com">ritik@vaultafter.com</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 VaultAfter</span>
+        <span>Engineered for complete personal sovereignty.</span>
+      </div>
     </div>
   </footer>
 
   <script>
-    const form = document.getElementById('waitlist-form');
-    const success = document.getElementById('success-message');
+    (function () {
+      const ROUTES = ['home', 'features', 'about', 'waitlist'];
+      const pages = document.querySelectorAll('.page');
+      const navLinks = document.querySelectorAll('[data-route]');
+      const nav = document.getElementById('nav');
+      const hamburger = document.getElementById('hamburger');
+      const drawer = document.getElementById('drawer');
+      const overlay = document.getElementById('drawerOverlay');
+      const themeToggle = document.getElementById('themeToggle');
+      const themeIcon = document.getElementById('themeIcon');
+      const html = document.documentElement;
+      let theme = 'dark';
+      let currentSectionRoute = 'home';
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      form.reset();
-      success.style.display = 'block';
-    });
+      function getRoute() {
+        const hash = (location.hash || '#home').slice(1).toLowerCase();
+        return ROUTES.includes(hash) ? hash : 'home';
+      }
+
+      function setActiveRoute(route) {
+        pages.forEach(function (p) {
+          p.classList.toggle('active', p.dataset.page === route);
+        });
+        currentSectionRoute = route;
+        navLinks.forEach(function (a) {
+          if (a.dataset.route === route) a.classList.add('active');
+          else a.classList.remove('active');
+        });
+        document.title = route === 'home'
+          ? 'VaultAfter — Elite Digital Estate Succession & Safekeeping'
+          : 'VaultAfter — ' + route.charAt(0).toUpperCase() + route.slice(1);
+        closeDrawer();
+        initReveal();
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+
+      function navigate(route, push) {
+        if (!ROUTES.includes(route)) route = 'home';
+        if (push !== false) {
+          history.pushState(null, '', '#' + route);
+        }
+        setActiveRoute(route);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      window.addEventListener('hashchange', function () {
+        navigate(getRoute(), false);
+      });
+      window.addEventListener('popstate', function () {
+        navigate(getRoute(), false);
+      });
+      navLinks.forEach(function (link) {
+        link.addEventListener('click', function (e) {
+          const route = link.dataset.route;
+          if (route && ROUTES.includes(route)) {
+            e.preventDefault();
+            navigate(route);
+          }
+        });
+      });
+
+      /* Nav scroll background application */
+      function onScroll() {
+        nav.classList.toggle('scrolled', window.scrollY > 8);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      /* Sidebar Drawer */
+      function openDrawer() {
+        hamburger.setAttribute('aria-expanded', 'true');
+        drawer.classList.add('open');
+        overlay.classList.add('open');
+        drawer.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeDrawer() {
+        hamburger.setAttribute('aria-expanded', 'false');
+        drawer.classList.remove('open');
+        overlay.classList.remove('open');
+        drawer.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+      hamburger.addEventListener('click', function () {
+        if (hamburger.getAttribute('aria-expanded') === 'true') closeDrawer();
+        else openDrawer();
+      });
+      overlay.addEventListener('click', closeDrawer);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeDrawer();
+      });
+
+      /* Visual Theme toggles */
+      function applyTheme(t) {
+        theme = t;
+        html.setAttribute('data-theme', t);
+        themeIcon.setAttribute('data-lucide', t === 'dark' ? 'sun' : 'moon');
+        themeToggle.setAttribute('aria-label', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+      themeToggle.addEventListener('click', function () {
+        applyTheme(theme === 'dark' ? 'light' : 'dark');
+      });
+
+      /* On-scroll animation triggers */
+      let revealObserver;
+      function initReveal() {
+        const activePage = document.querySelector('.page.active');
+        if (!activePage) return;
+        const els = activePage.querySelectorAll('.reveal:not(.visible)');
+        if (revealObserver) revealObserver.disconnect();
+        revealObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+        els.forEach(function (el) { revealObserver.observe(el); });
+      }
+
+      /* Navigation highlight triggers */
+      function highlightNav(route) {
+        if (!route || route === currentSectionRoute) return;
+        currentSectionRoute = route;
+        document.querySelectorAll('.nav__links a[data-route], .drawer a[data-route]').forEach(function (link) {
+          link.classList.toggle('active', link.dataset.route === route);
+        });
+      }
+      const navObserver = new IntersectionObserver(function (entries) {
+        const visible = entries
+          .filter(function (e) { return e.isIntersecting && e.intersectionRatio > 0.2; })
+          .sort(function (a, b) { return b.intersectionRatio - a.intersectionRatio; });
+        if (visible[0]) highlightNav(visible[0].target.dataset.sectionRoute);
+      }, { threshold: [0.15, 0.35, 0.55], rootMargin: '-80px 0px -45% 0px' });
+      document.querySelectorAll('[data-section-route]').forEach(function (el) {
+        navObserver.observe(el);
+      });
+
+      /* Waitlist form submissions */
+      const form = document.getElementById('waitlistForm');
+      const formSuccess = document.getElementById('formSuccess');
+      const formError = document.getElementById('formError');
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        formError.classList.remove('show');
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        if (!name || name.length < 2) {
+          formError.textContent = 'Please provide your full name.';
+          formError.classList.add('show');
+          return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          formError.textContent = 'Please enter a valid email address.';
+          formError.classList.add('show');
+          return;
+        }
+        const btn = form.querySelector('button[type="submit"]');
+        btn.disabled = true;
+        btn.textContent = 'Verifying allocation…';
+        try {
+          const res = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { Accept: 'application/json' }
+          });
+          if (res.ok) {
+            form.style.display = 'none';
+            formSuccess.classList.add('show', 'visible');
+          } else {
+            const data = await res.json().catch(function () { return {}; });
+            throw new Error(data.error || 'Registration failed. Please attempt again.');
+          }
+        } catch (err) {
+          formError.textContent = err.message || 'System connectivity issue. Please try again.';
+          formError.classList.add('show');
+          btn.disabled = false;
+          btn.textContent = 'Submit Registration';
+        }
+      });
+
+      /* System Init */
+      if (!location.hash) history.replaceState(null, '', '#home');
+      currentSectionRoute = getRoute();
+      applyTheme('dark');
+      navigate(getRoute(), false);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    })();
   </script>
 </body>
 </html>
